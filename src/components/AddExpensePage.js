@@ -22,7 +22,7 @@ export class AddExpensePage extends React.Component { // <- export so it's possi
   }
 }
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = (dispatch) => ({
   addExpense: (expense) => dispatch(addExpense(expense))
 });
 
