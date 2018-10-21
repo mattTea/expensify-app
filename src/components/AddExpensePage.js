@@ -1,5 +1,3 @@
-// component amended quite heavily to make easier to test (L124)
-
 import React from 'react';
 import { connect } from 'react-redux';
 import ExpenseForm from './ExpenseForm';
@@ -18,7 +16,7 @@ export class AddExpensePage extends React.Component { // <- export so it's possi
           onSubmit={this.onSubmit}
         />
       </div>
-    )
+    );
   }
 }
 
