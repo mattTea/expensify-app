@@ -121,13 +121,130 @@ const database = firebase.database();
 // Lecture 148 challenge
 // ---------------------
 
-database.ref().on('value', (snapshot) => {
-  const val = snapshot.val();
-  console.log(`${val.name} is a ${val.job.title} at ${val.job.company}.`);
+// database.ref().on('value', (snapshot) => {
+//   const val = snapshot.val();
+//   console.log(`${val.name} is a ${val.job.title} at ${val.job.company}.`);
+// });
+
+// setTimeout(() => {
+//   database.ref().update({
+//     'job/company': 'Amazon'
+//   });
+// }, 3500);
+
+
+// Lecture 149
+// -----------
+
+// Firebase does not support arrays! (But Redux needs an array!)
+// converts this to an object structure...
+// const notes = [{
+//   id: '12',
+//   title: 'First Note',
+//   body: 'This is my note'
+// }, {
+//   id: '761ase',
+//   title: 'Another Note',
+//   body: 'This is my note'
+// }];
+
+// database.ref('notes').set(notes);
+
+// going to be storing it like this in firebase...
+// any time we want an array we switch it up -> we have a unique identifier, and set its value equal to an object, that where we put the "array stuff"
+// const firebaseNotes = {
+//   notes: {
+//     id1234: {
+//       title: 'First Note',
+//       body: 'This is my note'
+//     },
+//     id5678: {
+//       title: 'Another Note',
+//       body: 'This is my note'
+//     }
+//   }
+// };
+
+// how generate this unique identifier? .push() -> creates a new property on our reference. it will create a random value, and take whatever we pass into push (an object probs) and set it as the "array stuff" -> the attributes on that unique value node
+// database.ref('notes').push({
+//   title: 'Course Topics',
+//   body: 'React, JavaScript, Kotlin, CS.'
+// });
+
+// database.ref('notes/-LPbVIldfe8RNo8hmtiQ').update({
+//   body: 'Buy food'
+// });
+
+// database.ref('notes/-LPbVIldfe8RNo8hmtiQ').remove();
+
+// Lecture 149 challenge
+// ---------------------
+
+// database.ref('expenses').push({
+//   description: 'Bike sundries',
+//   note: 'Set up regular payment',
+//   amount: 10000,
+//   createdAt: 324245345
+// });
+
+// database.ref('expenses').push({
+//   description: 'Dry cleaning',
+//   note: 'Due back on Monday',
+//   amount: 1500,
+//   createdAt: 324245345
+// });
+
+// database.ref('expenses').push({
+//   description: 'Mortgage',
+//   note: '2018 value',
+//   amount: 200000,
+//   createdAt: 324245345
+// });
+
+
+// Lecture 150
+// -----------
+
+// database.ref('expenses')
+//   .once('value')
+//   .then((snapshot) => {
+//     console.log(snapshot.val());
+//   });
+
+// will need to manipulate the object structure we get back from Firebase so that Redux and our app can work with it (arrays)
+
+// can access forEach on a snapsot to access child snapshots
+// iterate over all of the child snapshots and put them into an array using .push() (so we can use in our app)
+// database.ref('expenses')
+//   .once('value')
+//   .then((snapshot) => {
+//     const expenses = [];
+
+//     snapshot.forEach((childSnapshot) => { // forEach function gets called one time for every expense
+//       expenses.push({
+//         id: childSnapshot.key, // key (on dataSnapshot) gives us the string value for a specific item in the database
+//         ...childSnapshot.val()
+//       });
+//     });
+
+//     console.log(expenses);
+//   });
+// ^^ above is the exact structure we need to integrate firebase with our application
+
+// Lecture 150 challenge
+// ---------------------
+
+database.ref('expenses').on('value', (snapshot) => {
+  const expenses = [];
+  
+  snapshot.forEach((childSnapshot) => {
+    expenses.push({
+      id: childSnapshot.key,
+      ...childSnapshot.val()
+    });
+  });
+
+  console.log(expenses);
 });
 
-setTimeout(() => {
-  database.ref().update({
-    'job/company': 'Amazon'
-  });
-}, 3500);
+// GOT TO 08.09 in lecture 150. Continue form here...
