@@ -18,7 +18,7 @@ export const startAddExpense = (expenseData = {}) => {
     } = expenseData;
     const expense = { description, note, amount, createdAt };
 
-    database.ref('expenses').push(expense).then((ref) => {
+    return database.ref('expenses').push(expense).then((ref) => { // <- added return at start of line so it can be returned in promise in test (and additional chained promises can be attached)
       dispatch(addExpense({
         id: ref.key,
         ...expense
