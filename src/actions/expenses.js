@@ -7,7 +7,7 @@ export const addExpense = (expense) => ({
   expense
 });
 
-// START_ADD_EXPENSE (dispatched the function required for the async action to firebase)
+// START_ADD_EXPENSE (dispatches the function required for the async action to firebase)
 export const startAddExpense = (expenseData = {}) => {
   return (dispatch) => {
     const {
@@ -39,3 +39,30 @@ export const editExpense = (id, updates) => ({
   id,
   updates
 });
+
+// SET_EXPENSES (read as 'fetch expenses')
+export const setExpenses = (expenses) => ({
+  type: 'SET_EXPENSES',
+  expenses
+});
+
+// START_SET_EXPENSES
+// 1. Fetch all expense data once (from firebase)
+// 2. Parse the data into an array
+// 3. Dispatch SET_EXPENSES
+export const startSetExpenses = () => {
+  return (dispatch) => {
+    return database.ref('expenses').once('value').then((snapshot) => {
+      const expenses = [];
+
+      snapshot.forEach((childSnapshot) => {
+        expenses.push({
+          id: childSnapshot.key,
+          ...childSnapshot.val()
+        });
+      });
+
+      dispatch(setExpenses(expenses));
+    });
+  };
+};
