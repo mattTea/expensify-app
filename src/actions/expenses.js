@@ -46,10 +46,6 @@ export const setExpenses = (expenses) => ({
   expenses
 });
 
-// START_SET_EXPENSES
-// 1. Fetch all expense data once (from firebase)
-// 2. Parse the data into an array
-// 3. Dispatch SET_EXPENSES
 export const startSetExpenses = () => {
   return (dispatch) => {
     return database.ref('expenses').once('value').then((snapshot) => {
