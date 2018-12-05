@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box; // <- universally, no padding + margin added outside input box sizing
+}
+
 html {
   font-size: 62.5%;
 }

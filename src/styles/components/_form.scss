@@ -1,0 +1,12 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  > * { // > = direct descendants (doesn't include descendants of descendants, like the button), * = all (all the inputs on the form)
+    margin-bottom: $m-size;
+  }
+}
+
+.form__error {
+  font-style: italic; 
+  margin: 0 0 $m-size 0;
+}
