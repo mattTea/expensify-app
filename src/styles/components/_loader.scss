@@ -6,7 +6,17 @@
   width: 100vw;
 }
 
-.loader__image {
+.loader-spinner {
+  animation: zRotate 2s infinite linear;
+  border: solid 3px $off-white;
+  border-bottom-color: $blue;
+  border-radius: 50%;
   height: 6rem;
   width: 6rem;
+}
+
+@keyframes zRotate {
+  to {
+    transform: rotateZ(1turn);
+  }
 }
